@@ -1,0 +1,125 @@
+.form {
+  display: grid;
+  gap: var(--s5);
+}
+
+.row {
+  display: grid;
+  gap: var(--s5);
+}
+
+@media (min-width: 640px) {
+  .row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.field {
+  display: grid;
+  gap: var(--s2);
+  align-content: start;
+}
+
+.field label {
+  font-weight: 500;
+  font-size: var(--text-small);
+}
+
+.optional {
+  font-weight: 400;
+  color: var(--ink-muted);
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  min-height: 48px;
+  padding: var(--s3) var(--s4);
+  border: 1px solid #8b919a;
+  border-radius: var(--radius);
+  background: var(--surface);
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.field textarea {
+  resize: vertical;
+  min-height: 160px;
+}
+
+.field select {
+  appearance: none;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--ink-muted) 50%),
+    linear-gradient(135deg, var(--ink-muted) 50%, transparent 50%);
+  background-position:
+    calc(100% - 20px) 50%,
+    calc(100% - 15px) 50%;
+  background-size: 5px 5px;
+  background-repeat: no-repeat;
+  padding-right: var(--s7);
+}
+
+.field input:focus-visible,
+.field select:focus-visible,
+.field textarea:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 0;
+  border-color: var(--accent);
+}
+
+.field [aria-invalid='true'] {
+  border-color: var(--error);
+}
+
+.error {
+  color: var(--error);
+  font-size: var(--text-small);
+}
+
+.error a {
+  color: inherit;
+}
+
+.success {
+  padding: var(--s5);
+  border-left: 3px solid var(--success);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 1.125rem;
+}
+
+.success:focus {
+  outline: none;
+}
+
+.trap {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.submit {
+  justify-self: start;
+  min-height: 52px;
+  padding: 0 var(--s6);
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 500;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.submit:hover {
+  background: #2457b4;
+}
+
+.submit:disabled {
+  cursor: progress;
+  opacity: 0.75;
+}

@@ -1,0 +1,128 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgb(244 244 241 / 0.94);
+  backdrop-filter: saturate(1.4) blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+
+.headerInner {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+  height: 64px;
+  display: flex;
+  align-items: center;
+  gap: var(--s5);
+}
+
+.brand {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 1.125rem;
+  text-decoration: none;
+  margin-right: auto;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.nav {
+  display: none;
+}
+
+.nav ul {
+  list-style: none;
+  display: flex;
+  gap: var(--s5);
+}
+
+.nav a {
+  text-decoration: none;
+  font-size: var(--text-small);
+  color: var(--ink-muted);
+  padding: var(--s3) 0;
+}
+
+.nav a:hover {
+  color: var(--ink);
+}
+
+.headerCta {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 var(--s4);
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-size: var(--text-small);
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.headerCta:hover {
+  background: #2457b4;
+}
+
+@media (min-width: 768px) {
+  .nav {
+    display: block;
+  }
+}
+
+.footer {
+  background: var(--ground);
+  color: var(--ink-on-dark);
+  border-top: 1px solid var(--line-on-dark);
+}
+
+.footer :focus-visible {
+  outline-color: var(--accent-on-dark);
+}
+
+.footerInner {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: var(--s7) var(--gutter);
+  display: grid;
+  gap: var(--s4);
+}
+
+.footerLogo {
+  font-family: var(--font-heading);
+  font-weight: 600;
+}
+
+.footerLinks {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2) var(--s5);
+}
+
+.footerLinks a {
+  color: var(--accent-on-dark);
+  text-underline-offset: 3px;
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+}
+
+.copyright {
+  font-size: var(--text-small);
+  color: var(--ink-on-dark-muted);
+}
+
+@media (min-width: 768px) {
+  .footerInner {
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+  }
+
+  .footerLinks {
+    justify-content: center;
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "slug": "bernersystems",
+  "kind": "studio-portfolio",
+  "trade": "Software / web studio (freelance)",
+  "trade_note": "Berner Systems is a one-person studio building websites for local service businesses and web apps / internal tools for founders. No trade preset fits, so this follows the shared rules: approved fonts, one accent, AA contrast, real work first, and one motion concept. The work itself (mobile app recordings in a phone frame) is the imagery.",
+  "palette": {
+    "source": "Existing Berner Systems mark in the Outreach CRM (crm/icons/icon.svg, manifest theme_color): signal blue #2a62c9 on white. That blue is the accent; everything else is neutral.",
+    "roles": {
+      "paper": { "hex": "#F4F4F1", "use": "page background, cool-neutral (not cream)" },
+      "surface": { "hex": "#FFFFFF", "use": "form fields, raised panels" },
+      "ink": { "hex": "#15181D", "use": "body and heading text on light" },
+      "ink-muted": { "hex": "#535A65", "use": "secondary text on light" },
+      "line": { "hex": "#C9CCC6", "use": "hairlines and rules (non-text)" },
+      "ground": { "hex": "#111418", "use": "Work section band and footer, so the phone screens carry the color" },
+      "ink-on-dark": { "hex": "#ECEEF1", "use": "text on ground" },
+      "ink-on-dark-muted": { "hex": "#A3ABB6", "use": "secondary text on ground" },
+      "accent": { "hex": "#2A62C9", "use": "primary button fill, links, focus ring, the wordmark dot" },
+      "accent-ink": { "hex": "#FFFFFF", "use": "text on accent" },
+      "accent-on-dark": { "hex": "#7FA6FF", "use": "links, focus ring, and active progress tick on ground" },
+      "error": { "hex": "#B3261E", "use": "form errors" },
+      "success": { "hex": "#1D7A45", "use": "form success" }
+    },
+    "contrast_checks": {
+      "ink on paper": 16.15,
+      "ink-muted on paper": 6.31,
+      "ink-muted on surface": 6.96,
+      "accent on paper": 5.17,
+      "accent-ink on accent": 5.69,
+      "ink-on-dark on ground": 15.89,
+      "ink-on-dark-muted on ground": 7.97,
+      "accent-on-dark on ground": 7.74,
+      "error on paper": 5.93,
+      "success on paper": 4.86
+    }
+  },
+  "type": {
+    "heading": "Source Serif 4",
+    "body": "IBM Plex Sans",
+    "mono": "IBM Plex Mono",
+    "note": "Approved list. The serif gives a calm editorial voice that sets it apart from typical dev-shop pages. Plex Sans handles body and UI. Plex Mono is used only for stack tags and the small project index labels, never for paragraphs. Body is 17px on mobile, 18px on desktop, sentence case everywhere."
+  },
+  "radius": { "control": "6px", "phone": "44px (device bezel only)" },
+  "spacing_scale_px": [4, 8, 12, 16, 24, 32, 48, 64, 96],
+  "motion": {
+    "concept": "One phone, many apps",
+    "description": "On desktop the Work section pins a single phone on the right while the case studies scroll past on the left. As each case study crosses the middle of the viewport, the phone's screen cross-fades to that app's recording and a small index (01/03) updates. It is the only scroll-linked motion on the page.",
+    "implementation": {
+      "smooth_scroll": "Lenis, one provider in the root layout (src/components/SmoothScroll.tsx). Drives gsap.ticker so ScrollTrigger stays in sync.",
+      "pin": "GSAP ScrollTrigger, registered once in SmoothScroll.tsx. Each case study is a trigger (start 'top center', end 'bottom center') that sets the active project; the phone column is position: sticky (CSS), so the pin costs no JS layout work.",
+      "screen_swap": "Opacity cross-fade between stacked <video> layers, 320ms. Only the active video plays; others pause.",
+      "duration_rules": "No UI animation over 400ms. No fade-ups on sections, no parallax, no animated text."
+    },
+    "fallbacks": {
+      "below_768px": "No Lenis and no ScrollTrigger. Each case study renders its own phone inline under its text. Videos show their poster and play when tapped.",
+      "prefers_reduced_motion": "Same as below 768px at every width: no smooth scroll, no pin, no cross-fade, and videos play only when tapped."
+    },
+    "3d": "None. The product recordings are the visual; skipping three.js keeps / well under budget.",
+    "budget": "Under 300 KB JS on /, under 1.5 MB first load excluding images and video."
+  },
+  "copy_voice": {
+    "tone": "Plain, specific, first person singular ('I build...'). Written for an owner or founder deciding whether to send a message.",
+    "do": [
+      "Say what each project does and who it is for, in one or two sentences.",
+      "Name the real stack (Next.js, Supabase, Stripe, Resend, Vercel) as small tags, not as selling points.",
+      "Label CoolBreeze HVAC as a concept site for a fictional business.",
+      "Label the CRM as an internal tool shown with demo data.",
+      "Button labels say what happens: 'Start a project', 'Send message', 'Try it live', 'Open in a new tab'."
+    ],
+    "dont": [
+      "No invented clients, testimonials, counts, years of experience, or percentages.",
+      "No 'elevate', 'seamless', 'cutting-edge', 'solutions that scale', 'trusted partner'.",
+      "No prices until Sean sets them.",
+      "No all-caps eyebrows, gradients, emoji, or icon-card rows."
+    ]
+  },
+  "hero_image": {
+    "source": "Screen recordings and posters of Sean's own apps, captured at 390x844 by scripts/capture.mjs.",
+    "rights_status": "owned"
+  },
+  "open_questions": [
+    "Inbox for contact form email (CONTACT_TO).",
+    "Display name and short bio for the About section; optional headshot.",
+    "GitHub / LinkedIn URLs for the footer.",
+    "Deployed URLs for DuctLink (a demo shop link that works without login) and CoolBreeze.",
+    "Demo Supabase account with fake prospects for the CRM recording.",
+    "Where bernersystems.com DNS is hosted."
+  ]
+}

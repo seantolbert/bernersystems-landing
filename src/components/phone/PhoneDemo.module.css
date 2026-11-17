@@ -1,0 +1,211 @@
+.figure {
+  margin: 0;
+  display: grid;
+  justify-items: center;
+  gap: var(--s4);
+  width: 100%;
+}
+
+/* Device bezel: pure CSS, one elevation. */
+.device {
+  position: relative;
+  width: min(100%, var(--phone-w, 320px));
+  padding: 10px;
+  border-radius: 46px;
+  background: #07090b;
+  box-shadow:
+    inset 0 0 0 1.5px #3a414b,
+    0 24px 48px -24px rgb(0 0 0 / 0.55);
+}
+
+.light .device {
+  box-shadow:
+    inset 0 0 0 1.5px #3a414b,
+    0 24px 48px -28px rgb(17 20 24 / 0.45);
+}
+
+.island {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  width: 30%;
+  height: 22px;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: #07090b;
+  pointer-events: none;
+}
+
+.screen {
+  position: relative;
+  aspect-ratio: 390 / 844;
+  border-radius: 36px;
+  overflow: hidden;
+  background: #07090b;
+  isolation: isolate;
+}
+
+.layer {
+  position: absolute;
+  /* Status-bar strip so app content starts below the island, like a real phone. */
+  inset: 6% 0 0 0;
+  opacity: 0;
+  transition: opacity 320ms ease;
+}
+
+.layer[data-active='true'] {
+  opacity: 1;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .layer {
+    transition: none;
+  }
+}
+
+.video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  background: #1a1e24;
+}
+
+.iframe {
+  width: 390px;
+  height: 844px;
+  border: 0;
+  transform-origin: top left;
+  background: #fff;
+}
+
+/* Labeled placeholder until the capture script produces media. */
+.placeholder {
+  height: 100%;
+  display: grid;
+  align-content: center;
+  gap: var(--s3);
+  padding: var(--s7) var(--s5);
+  background:
+    repeating-linear-gradient(135deg, transparent 0 14px, rgb(255 255 255 / 0.025) 14px 15px),
+    #1a1e24;
+  color: var(--ink-on-dark);
+  text-align: left;
+}
+
+.placeholderTag {
+  justify-self: start;
+  font-family: var(--font-mono);
+  font-size: var(--text-meta);
+  color: var(--ink-on-dark-muted);
+  border: 1px solid var(--line-on-dark);
+  border-radius: var(--radius);
+  padding: 2px var(--s2);
+}
+
+.placeholderName {
+  font-family: var(--font-heading);
+  font-size: 1.75rem;
+  line-height: 1.1;
+}
+
+.placeholderText {
+  font-size: var(--text-meta);
+  line-height: 1.5;
+  color: var(--ink-on-dark-muted);
+}
+
+.playOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: rgb(7 9 11 / 0.18);
+  cursor: pointer;
+}
+
+.playIcon {
+  width: 64px;
+  height: 64px;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.92);
+  position: relative;
+}
+
+.playIcon::after {
+  content: '';
+  position: absolute;
+  left: 26px;
+  top: 20px;
+  border-style: solid;
+  border-width: 12px 0 12px 19px;
+  border-color: transparent transparent transparent var(--ink);
+}
+
+.playOverlay:focus-visible {
+  outline-offset: -6px;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: var(--s2) var(--s4);
+  min-height: 44px;
+}
+
+.control {
+  min-height: 44px;
+  padding: 0 var(--s4);
+  border-radius: var(--radius);
+  border: 1px solid var(--line-on-dark);
+  background: transparent;
+  color: var(--ink-on-dark);
+  font-size: var(--text-small);
+  cursor: pointer;
+}
+
+.control:hover {
+  border-color: var(--ink-on-dark-muted);
+}
+
+.controlPrimary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+
+.controlPrimary:hover {
+  background: #2457b4;
+  border-color: #2457b4;
+}
+
+.link {
+  font-size: var(--text-small);
+  color: var(--accent-on-dark);
+  text-underline-offset: 3px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.figure :focus-visible {
+  outline-color: var(--accent-on-dark);
+}
+
+.light .control {
+  border-color: var(--line);
+  color: var(--ink);
+}
+
+.light .link {
+  color: var(--accent);
+}
+
+.light :focus-visible {
+  outline-color: var(--accent);
+}

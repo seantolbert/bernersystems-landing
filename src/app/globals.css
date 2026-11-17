@@ -1,49 +1,155 @@
+/* Tokens from intake/bernersystems.direction.json. Contrast pairs are checked there. */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --paper: #f4f4f1;
+  --surface: #ffffff;
+  --ink: #15181d;
+  --ink-muted: #535a65;
+  --line: #c9ccc6;
+  --ground: #111418;
+  --ink-on-dark: #eceef1;
+  --ink-on-dark-muted: #a3abb6;
+  --line-on-dark: #2c323b;
+  --accent: #2a62c9;
+  --accent-ink: #ffffff;
+  --accent-on-dark: #7fa6ff;
+  --error: #b3261e;
+  --success: #1d7a45;
+
+  --font-heading: var(--font-source-serif), Georgia, serif;
+  --font-body: var(--font-plex-sans), system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+
+  /* Spacing scale: 4 8 12 16 24 32 48 64 96 */
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 12px;
+  --s4: 16px;
+  --s5: 24px;
+  --s6: 32px;
+  --s7: 48px;
+  --s8: 64px;
+  --s9: 96px;
+
+  --radius: 6px;
+  --gutter: 16px;
+  --max: 1200px;
+  --measure: 68ch;
+
+  --text-body: 1.0625rem; /* 17px */
+  --text-small: 1rem; /* 16px on mobile */
+  --text-meta: 1rem; /* mono labels: 16px on mobile */
+  --text-h3: 1.375rem;
+  --text-h2: clamp(1.875rem, 1.4rem + 2vw, 2.75rem);
+  --text-h1: clamp(2.25rem, 1.6rem + 3.2vw, 4rem);
+
+  color-scheme: light;
 }
 
-@media (prefers-color-scheme: dark) {
+@media (min-width: 768px) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --gutter: 32px;
+    --text-body: 1.125rem; /* 18px */
+    --text-small: 0.9375rem;
+    --text-meta: 0.8125rem;
   }
 }
 
-html {
-  height: 100%;
-}
-
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-body {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
-  padding: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: 72px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html:not(.lenis) {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
   margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  margin: 0;
+  text-wrap: balance;
+}
+
+p {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
 }
 
 a {
   color: inherit;
-  text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: absolute;
+  left: var(--s4);
+  top: -100px;
+  z-index: 100;
+  padding: var(--s2) var(--s4);
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: var(--radius);
+}
+
+.skip-link:focus {
+  top: var(--s4);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
 }

@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# bernersystems.com
 
-## Getting Started
+The landing page and portfolio for Berner Systems: one static Next.js page with a contact form that emails through Resend.
 
-First, run the development server:
+Design direction, palette contrast checks, and the motion concept are in `intake/bernersystems.direction.json`.
+
+## Run
 
 ```bash
+npm install
+cp .env.example .env.local   # fill in to test the contact form locally
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Where things live
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| What | File |
+|---|---|
+| All page copy | `src/content/site.ts` |
+| Portfolio projects | `src/content/projects.ts` |
+| Project media | `public/work/<slug>/poster.webp, demo.webm, demo.mp4` |
+| Contact form server action | `src/app/actions/contact.ts` |
+| Phone frame (recording, tap to play, "Try it live") | `src/components/phone/PhoneDemo.tsx` |
+| Pinned "one phone, many apps" showcase | `src/components/work/WorkShowcase.tsx` |
+| Lenis + ScrollTrigger (registered once) | `src/components/motion/` |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**To add a project:** add an entry to `projects.ts` and run the capture script for it. Media files that don't exist yet show a labeled placeholder automatically. Set `liveUrl` to show "Try it live", and set `embeddable: false` if that site refuses to load in an iframe.
 
-## Learn More
+## Recording the apps
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+brew install ffmpeg                          # needed for demo.webm / demo.mp4 (posters work without it)
+COOLBREEZE_URL=http://localhost:3301 node scripts/capture.mjs coolbreeze-hvac
+DUCTLINK_URL=<demo shop link> node scripts/capture.mjs ductlink
+CRM_URL=<demo account URL> node scripts/capture.mjs outreach-crm   # demo data only, never real prospects
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Recordings are 390×844, trimmed to 14 s, with no audio. The script drives your installed Chrome.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Checks
 
-## Deploy on Vercel
+```bash
+npm run build && npm run lint && npm audit --omit=dev --audit-level=high
+node scripts/screens.mjs http://localhost:3000 screens     # 375 / 768 / 1440 + reduced motion; flags overflow and <16px text
+BASE_URL=http://localhost:3000 node scripts/check-pin.mjs /tmp      # pinned phone swaps; reduced motion turns it off
+BASE_URL=http://localhost:3000 node scripts/check-form.mjs          # bot trap, inline errors, failure fallback
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deploy (Vercel)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Push to a private GitHub repo and import it in Vercel.
+2. Email: `vercel integration add resend` (or create a key in Resend). In Resend, add the domain **`notify.bernersystems.com`**, which is separate from `mail.bernersystems.com`, the outreach domain the CRM uses. Add its SPF, DKIM, and DMARC (`p=none`) records and wait for "Verified".
+3. Env vars (Production and Preview): `RESEND_API_KEY`, `CONTACT_TO`, and `CONTACT_FROM="Berner Systems <hello@notify.bernersystems.com>"`.
+4. Domain: add `bernersystems.com` and `www.bernersystems.com` (redirect www to the apex). Add the A/CNAME records at your DNS host **without removing the existing `mail.` Resend records**.
+5. Firewall: add a rate-limit rule for `POST /` (for example, 5 requests per minute per IP) to slow down form spam.
+6. Previews are `noindex` automatically. Only production is indexed.
