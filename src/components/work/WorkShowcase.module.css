@@ -108,6 +108,10 @@
   --phone-w: 300px;
 }
 
+.inlineStage {
+  display: none;
+}
+
 .stickyCol {
   display: none;
 }
@@ -122,7 +126,7 @@
 /* Pinned layout: desktop with motion allowed only (same query as MOTION_QUERY). */
 @media (min-width: 768px) and (prefers-reduced-motion: no-preference) {
   .grid {
-    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
     gap: var(--s7);
   }
 
@@ -160,24 +164,20 @@
     display: grid;
     align-content: center;
     gap: var(--s3);
-    --phone-w: min(320px, calc((100vh - 240px) * 0.45));
+    /* Fit the 1 : 0.72 stage between the header and the controls row. */
+    --stage-w: calc((100vh - 64px - 150px) / 0.72);
   }
 }
 
-/* Mobile and reduced-motion at tablet+: side-by-side text and phone per case study. */
+/* Reduced motion at tablet+: a static stage under each case study, tap to play. */
 @media (min-width: 768px) and (prefers-reduced-motion: reduce) {
-  .case {
-    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-    column-gap: var(--s7);
+  .inlinePhone {
+    display: none;
   }
 
-  .case > * {
-    grid-column: 1;
-  }
-
-  .case > .inlinePhone {
-    grid-column: 2;
-    grid-row: 1 / span 7;
-    margin-top: 0;
+  .inlineStage {
+    display: block;
+    margin-top: var(--s6);
+    max-width: 820px;
   }
 }

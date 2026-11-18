@@ -20,13 +20,32 @@ npm run dev
 | Portfolio projects | `src/content/projects.ts` |
 | Project media | `public/work/<slug>/poster.webp, demo.webm, demo.mp4` |
 | Contact form server action | `src/app/actions/contact.ts` |
-| Phone frame (recording, tap to play, "Try it live") | `src/components/phone/PhoneDemo.tsx` |
-| Pinned "one phone, many apps" showcase | `src/components/work/WorkShowcase.tsx` |
+| Phone + browser stage (pinned showcase, reduced motion) | `src/components/devices/DeviceStage.tsx` |
+| Single phone (mobile, hero) | `src/components/devices/PhoneDemo.tsx` |
+| Bezels, media layers, live iframe, controls | `src/components/devices/parts.tsx` |
+| Pinned showcase | `src/components/work/WorkShowcase.tsx` |
 | Lenis + ScrollTrigger (registered once) | `src/components/motion/` |
+
+**Media per project** (`public/work/<slug>/`, lowercase names, since Vercel is case-sensitive):
+
+| File | Shows in |
+|---|---|
+| `poster.webp`, `demo.mp4`, `demo.webm` | the phone (390×844) |
+| `desktop-poster.webp` | the browser window (still image, 1440 wide), desktop only. If it isn't 16:10, set `aspect` (e.g. `'1440 / 735'`) so nothing is cropped |
+
+A project with no `desktopMedia` entry (DuctLink, which is mobile-only) shows the phone by itself. For a real phone screen recording that includes the OS status bar, set `deviceRecording: true` on its `media`. The video then fills the screen, and the drawn island covers the real one and its recording dot.
 
 **To add a project:** add an entry to `projects.ts` and run the capture script for it. Media files that don't exist yet show a labeled placeholder automatically. Set `liveUrl` to show "Try it live", and set `embeddable: false` if that site refuses to load in an iframe.
 
-## Recording the apps
+## Your own screen recordings
+
+Keep originals out of `public/` (`.capture/originals/` is git-ignored). Then either:
+- **With ffmpeg** (best, about 1.5 MB for 14 s): `ffmpeg -i in.MP4 -t 14 -an -vf "scale=720:-2" -c:v libx264 -crf 27 -preset slow -pix_fmt yuv420p -movflags +faststart public/work/<slug>/demo.mp4`
+- **Without ffmpeg** (built into macOS, larger files): `avconvert -s in.MP4 -p Preset960x540 -o public/work/<slug>/demo.mp4 --start 0 --duration 14`
+
+Poster: `node scripts/poster-from-video.mjs public/work/<slug>/demo.mp4 public/work/<slug>/poster.webp`
+
+## Recording the apps automatically
 
 ```bash
 brew install ffmpeg                          # needed for demo.webm / demo.mp4 (posters work without it)
@@ -35,7 +54,7 @@ DUCTLINK_URL=<demo shop link> node scripts/capture.mjs ductlink
 CRM_URL=<demo account URL> node scripts/capture.mjs outreach-crm   # demo data only, never real prospects
 ```
 
-Recordings are 390×844, trimmed to 14 s, with no audio. The script drives your installed Chrome.
+Phone recordings are 390×844, and desktop recordings 1440×900 (CoolBreeze and the CRM). Both are trimmed to 14 s with no audio. Use `--phone-only` or `--desktop-only` to run one pass. The script drives your installed Chrome.
 
 ## Checks
 

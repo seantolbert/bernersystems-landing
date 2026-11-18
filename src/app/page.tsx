@@ -1,5 +1,5 @@
 import { ContactForm } from '@/components/contact/ContactForm';
-import { PhoneDemo } from '@/components/phone/PhoneDemo';
+import { PhoneDemo } from '@/components/devices/PhoneDemo';
 import { SiteFooter } from '@/components/site/SiteFooter';
 import { SiteHeader } from '@/components/site/SiteHeader';
 import { WorkShowcase } from '@/components/work/WorkShowcase';
@@ -43,7 +43,7 @@ export default function Home() {
               </div>
             </div>
             <div className={styles.heroPhone}>
-              <PhoneDemo projects={[heroProject]} still tone="light" />
+              <PhoneDemo project={heroProject} still tone="light" />
               <p className={styles.heroCaption}>
                 {heroProject.name}, {heroProject.kind.toLowerCase()}
               </p>

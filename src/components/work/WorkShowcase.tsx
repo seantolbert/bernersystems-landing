@@ -3,15 +3,17 @@
 import { useEffect, useRef, useState } from 'react';
 import type { Project } from '@/content/projects';
 import { gsap, MOTION_QUERY, ScrollTrigger } from '@/components/motion/gsap';
-import { PhoneDemo } from '@/components/phone/PhoneDemo';
+import { DeviceStage } from '@/components/devices/DeviceStage';
+import { PhoneDemo } from '@/components/devices/PhoneDemo';
 import styles from './WorkShowcase.module.css';
 
 type Props = { projects: Project[]; heading: string; intro: string };
 
 /**
  * Motion concept "One phone, many apps" (intake/bernersystems.direction.json).
- * Desktop with motion: one sticky phone swaps recordings as each case study crosses the center.
- * Mobile or reduced motion: CSS shows an inline phone under each case study and ScrollTrigger never runs.
+ * Desktop with motion: one sticky stage (browser window + phone) swaps recordings as each case study
+ * crosses the center. Reduced motion at 768px+: a static stage under each case study.
+ * Mobile: a phone under each case study. In both static cases ScrollTrigger never runs.
  */
 export function WorkShowcase({ projects, heading, intro }: Props) {
   const [active, setActive] = useState(0);
@@ -72,7 +74,10 @@ export function WorkShowcase({ projects, heading, intro }: Props) {
                 {p.note && <p className={styles.note}>{p.note}</p>}
 
                 <div className={styles.inlinePhone}>
-                  <PhoneDemo projects={[p]} />
+                  <PhoneDemo project={p} />
+                </div>
+                <div className={styles.inlineStage}>
+                  <DeviceStage projects={[p]} />
                 </div>
               </li>
             ))}
@@ -80,7 +85,7 @@ export function WorkShowcase({ projects, heading, intro }: Props) {
 
           <div className={styles.stickyCol}>
             <div className={styles.sticky}>
-              <PhoneDemo projects={projects} activeIndex={active} autoplay />
+              <DeviceStage projects={projects} activeIndex={active} autoplay />
               <p className={styles.nowShowing} aria-live="polite">
                 {projects[active]?.name}
               </p>
